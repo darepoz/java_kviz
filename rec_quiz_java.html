@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Programming Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #question {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .option:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <div id="question">Loading question...</div>
+  <div id="options"></div>
+  <button onclick="nextQuestion()">Next Question</button>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "What is the output of the following code snippet?\n\n```\nint x = 5;\nSystem.out.println(x++ + ++x);\n```",
+      options: ["10", "11", "12", "13", "14"],
+      correctAnswer: "14"
+    },
+    {
+      question: "Which design pattern is used to implement Undo functionality in Java applications?",
+      options: ["Observer", "Memento", "Singleton", "Decorator", "Command"],
+      correctAnswer: "Memento"
+    },
+    {
+      question: "What is the purpose of the `super` keyword in Java?",
+      options: ["To call the superclass constructor", "To access the superclass method", "To refer to the current object", "To create a subclass instance", "To handle exceptions"],
+      correctAnswer: "To access the superclass method"
+    },
+    {
+      question: "Which of the following collections class provides a resizable array implementation of the List interface?",
+      options: ["ArrayList", "LinkedList", "Vector", "HashSet", "HashMap"],
+      correctAnswer: "ArrayList"
+    },
+    {
+      question: "In Java, what is the default value of a local variable?",
+      options: ["0", "null", "undefined", "Depends on the data type", "Not initialized"],
+      correctAnswer: "Not initialized"
+    },
+    {
+      question: "What is the purpose of the `transient` keyword in Java?",
+      options: ["To make a variable non-translatable", "To make a variable transient", "To make a variable non-static", "To make a variable non-serializable", "To make a variable non-final"],
+      correctAnswer: "To make a variable non-serializable"
+    },
+    {
+      question: "Which Java annotation is used to mark a method as deprecated?",
+      options: ["@Deprecated", "@Obsolete", "@DeprecatedMethod", "@NotInUse", "@Old"],
+      correctAnswer: "@Deprecated"
+    },
+    {
+      question: "What does the `finally` block in Java represent?",
+      options: ["It is executed after the try block", "It is executed before the try block", "It is executed only if an exception is thrown", "It is executed only if there is no exception", "It is optional and may not be used"],
+      correctAnswer: "It is executed only if an exception is thrown"
+    },
+    {
+      question: "Which class is part of the java.util package and implements a doubly linked list?",
+      options: ["ArrayList", "LinkedList", "Vector", "HashSet", "HashMap"],
+      correctAnswer: "LinkedList"
+    },
+    {
+      question: "What is the purpose of the `volatile` keyword in Java?",
+      options: ["To make a variable volatile", "To make a variable non-volatile", "To make a variable thread-safe", "To make a variable constant", "To make a variable synchronized"],
+      correctAnswer: "To make a variable thread-safe"
+    },
+    {
+      question: "Which method is used to compare two strings in a case-insensitive manner?",
+      options: ["compareTo", "equals", "equalsIgnoreCase", "compare", "equalsIgnore"],
+      correctAnswer: "equalsIgnoreCase"
+    },
+    {
+      question: "What is the purpose of the `break` statement in Java?",
+      options: ["To terminate the loop or switch statement", "To skip the current iteration in a loop", "To exit the program", "To jump to the next iteration in a loop", "To terminate the program"],
+      correctAnswer: "To terminate the loop or switch statement"
+    },
+    {
+      question: "Which interface is used to indicate that a class can be serializable?",
+      options: ["Serializable", "Cloneable", "Transmittable", "SerializableClass", "Transferable"],
+      correctAnswer: "Serializable"
+    },
+    {
+      question: "In Java, what is the purpose of the `this` keyword?",
+      options: ["To refer to the current instance of the object", "To access the superclass method", "To create a new instance of the object", "To refer to the parent class", "To access the static variables"],
+      correctAnswer: "To refer to the current instance of the object"
+    },
+    {
+      question: "Which method is used to convert a primitive data type to a string in Java?",
+      options: ["toString", "valueOf", "parse", "convert", "toText"],
+      correctAnswer: "valueOf"
+    },
+    {
+      question: "What is the purpose of the `instanceof` operator in Java?",
+      options: ["To check if an object is an instance of a specific class or interface", "To compare two objects for equality", "To check if an object is null", "To check if a class is abstract", "To check if a class is final"],
+      correctAnswer: "To check if an object is an instance of a specific class or interface"
+    },
+    {
+      question: "Which method is used to obtain the length of an array in Java?",
+      options: ["size()", "length()", "count()", "getSize()", "getLength()"],
+      correctAnswer: "length()"
+    },
+    {
+      question: "What is the purpose of the `finalize` method in Java?",
+      options: ["To clean up resources before the object is garbage-collected", "To force the garbage collector to immediately collect the object", "To mark the object as final and prevent further modification", "To initialize the object before it is used", "To make the object immutable"],
+      correctAnswer:
+      "To clean up resources before the object is garbage-collected"
+    },
+    {
+      question: "Which class is used to create a stream in Java?",
+      options: ["Stream", "BufferedStream", "FileInputStream", "StreamReader", "InputStream"],
+      correctAnswer: "Stream"
+    },
+    {
+      question: "What is the purpose of the `Thread.sleep()` method in Java?",
+      options: ["To pause the current thread for a specified time", "To stop the current thread immediately", "To put the current thread to sleep permanently", "To restart the current thread", "To terminate the current thread"],
+      correctAnswer: "To pause the current thread for a specified time"
+    },
+    {
+      question: "Which Java feature allows you to define multiple methods with the same name but different parameters?",
+      options: ["Overriding", "Overloading", "Inheritance", "Polymorphism", "Encapsulation"],
+      correctAnswer: "Overloading"
+    },
+    {
+      question: "What is the purpose of the `try-with-resources` statement in Java?",
+      options: ["To define a block of code that may throw an exception", "To catch and handle exceptions", "To automatically close resources like files or sockets", "To handle asynchronous tasks", "To define a block of code that is always executed"],
+      correctAnswer: "To automatically close resources like files or sockets"
+    },
+    {
+      question: "Which Java collection class provides a dynamic array that can grow or shrink?",
+      options: ["ArrayList", "LinkedList", "Vector", "HashMap", "HashSet"],
+      correctAnswer: "ArrayList"
+    },
+    {
+      question: "What is the purpose of the `java.util.function` package in Java 8?",
+      options: ["To provide utility functions for common tasks", "To define functional interfaces", "To handle exceptions in functional programming", "To create anonymous inner classes", "To implement multithreading"],
+      correctAnswer: "To define functional interfaces"
+    },
+    {
+      question: "Which method is used to sort an array of objects in Java?",
+      options: ["sortArray()", "order()", "arrange()", "Arrays.sort()", "Collections.sort()"],
+      correctAnswer: "Arrays.sort()"
+    },
+    {
+      question: "What is the purpose of the `static` keyword in Java?",
+      options: ["To define a class member that belongs to the class rather than an instance", "To create an instance of a class", "To allow multiple instances of a class", "To define a method that can be overridden", "To prevent inheritance"],
+      correctAnswer: "To define a class member that belongs to the class rather than an instance"
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let correctAnswersCount = 0;
+
+  function loadQuestion() {
+    const currentQuestion = quizData[currentQuestionIndex];
+    document.getElementById("question").innerText = currentQuestion.question;
+
+    const optionsContainer = document.getElementById("options");
+    optionsContainer.innerHTML = "";
+
+    currentQuestion.options.forEach((option, index) => {
+      const optionElement = document.createElement("div");
+      optionElement.className = "option";
+      optionElement.innerText = option;
+      optionElement.onclick = () => checkAnswer(option);
+      optionsContainer.appendChild(optionElement);
+    });
+  }
+
+  function checkAnswer(selectedOption) {
+    const currentQuestion = quizData[currentQuestionIndex];
+    if (selectedOption === currentQuestion.correctAnswer) {
+      correctAnswersCount++;
+
+      if (correctAnswersCount === 3) {
+        alert("Congratulations! You have answered 3 questions correctly. You can now apply for the position.");
+        window.location.href = "https://www.adecco.rs/poslovi/orion-java-developer/";
+        return;  // Stop further execution after redirection
+      } else {
+        alert("Correct! Keep going.");
+      }
+    } else {
+      alert("Incorrect! Try the next question.");
+    }
+
+    if (currentQuestionIndex < quizData.length - 1) {
+      currentQuestionIndex++;
+      loadQuestion();
+    } else {
+      alert("You have completed the quiz.");
+      // Add any final actions or redirection here
+    }
+  }
+
+  function nextQuestion() {
+    if (currentQuestionIndex < quizData.length - 1) {
+      currentQuestionIndex++;
+      loadQuestion();
+    } else {
+      alert("You have completed the quiz.");
+      // Add any final actions or redirection here
+    }
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
